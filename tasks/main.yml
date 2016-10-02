@@ -1,0 +1,36 @@
+---
+- name: Remove old docker-engine
+  apt: pkg={{item}} state=removed
+  with_items:
+    - lxc-docker
+    - docker
+
+- name: Install Docker Engine Dependecies
+  apt: pkg={{item}} update_cache=true
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+    - linux-image-generic-lts-{ansible_distribution_release}
+
+- name: Configure Docker pkg Auth
+  apt_key: keyserver="{{docker_keyserver}}""
+           id="58118E89F3A912897C070ADBF76221572C52609D"
+           state=present
+
+- name: Add current docker entry
+  apt_repository: repo=deb https://apt.dockerproject.org/repo {{ansible_distribution|lower}}-{{nsible_distribution_release}} main
+                  state=present
+
+- name: Install Docker Engine
+  apt: pkg=docker-engine state=present update_cache=true
+  become: true
+
+- name: Docker Service Configuration
+  template: src=docker.j2 dest=/etc/default/docker
+  notify:
+    - Restart Docker Service
+
+- name: User docker permissions
+  command: sh -c "sudo usermod -aG docker $USER"
+  notify:
+    - Restart Docker Service
