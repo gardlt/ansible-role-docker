@@ -10,7 +10,9 @@
   with_items:
     - apt-transport-https
     - ca-certificates
-    - linux-image-generic-lts-{{ansible_distribution_release}}
+    - linux-image-extra-$(uname -r)
+    - linux-image-extra-virtual
+    - linux-image-generic-lts-trusty
 
 - name: Configure Docker pkg Auth
   apt_key: keyserver={{docker_keyserver}}
