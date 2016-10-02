@@ -10,7 +10,7 @@
   with_items:
     - apt-transport-https
     - ca-certificates
-    - linux-image-generic-lts-{ansible_distribution_release}
+    - linux-image-generic-lts-{{ansible_distribution_release}}
 
 - name: Configure Docker pkg Auth
   apt_key: keyserver={{docker_keyserver}}
@@ -18,7 +18,7 @@
            state=present
 
 - name: Add current docker entry
-  apt_repository: repo=deb https://apt.dockerproject.org/repo {{ansible_distribution|lower}}-{{nsible_distribution_release}} main
+  apt_repository: repo="deb https://apt.dockerproject.org/repo {{ansible_distribution|lower}}-{{ansible_distribution_release}} main"
                   state=present
 
 - name: Install Docker Engine
