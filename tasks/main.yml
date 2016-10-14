@@ -1,18 +1,12 @@
 ---
 - name: Remove old docker-engine
   apt: pkg={{item}} state=removed
-  with_items:
-    - lxc-docker
-    - docker
+  with_items: "{{ docker_remove_packages }}"
 
 - name: Install Docker Engine Dependecies
   apt: pkg={{item}} update_cache=true
-  with_items:
-    - apt-transport-https
-    - ca-certificates
-#    - linux-image-extra-$(uname -r)
-#    - linux-image-extra-virtual
-#    - linux-image-generic-lts-trusty
+  with_items: "{{ docker_packages }}"
+
 
 - name: Configure Docker pkg Auth
   apt_key: keyserver={{docker_keyserver}}
@@ -32,7 +26,15 @@
   notify:
     - Restart Docker Service
 
-- name: User docker permissions
+- name: User Docker Permissions
+  become: yes
   command: sh -c "sudo usermod -aG docker $USER"
   notify:
     - Restart Docker Service
+
+- name: Install Docker compose
+  become: yes
+  pip: name=docker-compose version=1.8.1
+
+- name: Install DockerPy
+  pip: name=docker-py version=1.10.3
