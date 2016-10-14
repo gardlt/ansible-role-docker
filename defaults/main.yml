@@ -13,3 +13,6 @@ docker_packages:
 docker_remove_packages:
   - lxc-docker
   - docker
+
+docker_proxy: false
+docker_proxy_http: http://proxy.example.com:8080
