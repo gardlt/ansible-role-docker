@@ -28,7 +28,7 @@
 
 - name: User Docker Permissions
   become: yes
-  command: sh -c "sudo usermod -aG docker $USER"
+  user: name={{docker_user}} group=docker
   notify:
     - Restart Docker Service
 
@@ -37,4 +37,4 @@
   pip: name=docker-compose version=1.8.1
 
 - name: Install DockerPy
-  pip: name=docker-py version=1.10.3
+  pip: name=docker-py version=1.9
