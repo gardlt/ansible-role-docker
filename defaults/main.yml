@@ -9,9 +9,8 @@ docker_packages:
   - apt-transport-https
   - ca-certificates
   - python-pip
-#    - linux-image-extra-$(uname -r)
-#    - linux-image-extra-virtual
-#    - linux-image-generic-lts-trusty
+  - curl
+  - linux-image-extra-virtual
 
 docker_remove_packages:
   - lxc-docker
