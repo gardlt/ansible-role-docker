@@ -2,7 +2,7 @@
 docker_keyserver: "hkp://p80.pool.sks-keyservers.net:80"
 docker_options: ""
 
-docker_user: "vagrant"
+#docker_user: "vagrant"
 
 ### PACKAGES ####
 docker_packages:

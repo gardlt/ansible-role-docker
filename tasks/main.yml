@@ -28,7 +28,7 @@
 
 - name: User Docker Permissions
   become: yes
-  user: name={{docker_user}} group=docker
+  user: name={{ansible_user}} group=docker
   notify:
     - Restart Docker Service
 
